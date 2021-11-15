@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
+//realizar un formulario que pida edad y muestre un mensaje
+//mostrar si es mayor o menor
 
 const Vehiculos = () => {
     const [nombreVehiculo, setNombreVehiculo] = useState('');
@@ -28,6 +30,7 @@ const Vehiculos = () => {
     return (
         <form className='flex flex-col'>
             <h2>formulario de creacion de vehiculos</h2>
+            
             <input onChange={(e) => {
                 setNombreVehiculo(e.target.value)
             }} 
