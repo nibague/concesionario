@@ -4,46 +4,44 @@ import React, {useEffect, useState} from 'react';
 //mostrar si es mayor o menor
 
 const Vehiculos = () => {
-    const [edad, setEdad] = useState(0);
-    const [esMenorDeEdad, setEsMenorDeEdad] = useState(false)
-    const [mostrarCamposAdicionales, setMostrarCamposAdicionales] = useState(false);
+    const [mostrarTabla, setMostrarTabla] = useState(true);
+    const [textBoton, setTextBoton] = useState('crear nuevo vehiculo')
 
     useEffect(()=>{
-        if(edad>18){
-            setEsMenorDeEdad(false)
-            console.log('la persona es mayor de edad')
-        } else{
-            setEsMenorDeEdad(true)
-            console.log('la persona es menor de edad')
+        if(mostrarTabla){
+            setTextBoton('crear nuevo vehiculo');
+
+        }else {
+            setTextBoton('mostrar todos los vehiculos')
         }
-
-    }, [edad]);
-
+    }, [mostrarTabla]);
     return (
-        <form className='flex flex-col'>
-            <h2>formulario de creacion de vehiculos</h2>
-            <label htmlfor='edad'>
-                porfavor ingrese su edad
-                <input value={edad} onChange={(e)=>{setEdad(e.target.value)}} name='edad' type='number' />
-            </label>
-            {
-                esMenorDeEdad ? (<span className='text-3xl text-red-500'>usted es menor de edad! you cant make payments</span>) : (<span className='text-3xl text-yellow-500'>usted es mayor de edad! you can make payments</span>)
-            }
-            <button onClick={() => setMostrarCamposAdicionales(true)} type='button' className='text-white bg-indigo-500' >
-                mostrar campos adicionales
-            </button>
-            {mostrarCamposAdicionales && (
-                <div>
-                    <input className='border bg-gray-400 my-2 p-3' placeholder='dato nuevo' type="text" />
-                    <input className='border bg-gray-400 my-2 p-3' placeholder='dato nuevo' type="text" />
-                    <input className='border bg-gray-400 my-2 p-3' placeholder='dato nuevo' type="text" />
-                    <input className='border bg-gray-400 my-2 p-3' placeholder='dato nuevo' type="text" />
-                    <input className='border bg-gray-400 my-2 p-3' placeholder='dato nuevo' type="text" />
-                </div>
-            )}
+        <div className='flex h-full w-full flex-col items-center justify-start p-8'>
+            <div className='flex flex-col'>
+                <h2 className='text-3xl font-extrabold text-gray-900'>pagina de administracion de vehiculos</h2>
+                <button onClick={()=>{setMostrarTabla(!mostrarTabla)}} className='text-white bg-indigo-500 p-5' type='button' >{textBoton}</button>
+                {mostrarTabla ? <TablaVehiculos /> : <FormularioVehiculos />}
+            </div>
             
+        </div>
+
+    );
+    
+};
+
+const TablaVehiculos = () => {
+    return <div> esto es un div pero deberia ser una tabla mostrando los vehiculos</div>
+}
+const FormularioVehiculos = () => {
+    return <div>
+        <h2 className='text-2xl font-extrabold text-gray-800'>crear nuevo vehiculo</h2>
+        <form className='grid grid-cols-2'>
+            <input className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2' type="text" />
+            <input className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2' type="text" />
+            <input className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2' type="text" />
+            <button className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-100 text-white'>Guardar vehiculo</button>
         </form>
-    )
+    </div>;
 }
 
 export default Vehiculos
