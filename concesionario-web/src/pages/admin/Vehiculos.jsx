@@ -4,46 +4,44 @@ import React, {useEffect, useState} from 'react';
 //mostrar si es mayor o menor
 
 const Vehiculos = () => {
-    const [nombreVehiculo, setNombreVehiculo] = useState('');
-    
+    const [edad, setEdad] = useState(0);
+    const [esMenorDeEdad, setEsMenorDeEdad] = useState(false)
+    const [mostrarCamposAdicionales, setMostrarCamposAdicionales] = useState(false);
+
     useEffect(()=>{
-        console.log('Hola, I am a useEffect (esto se ejecuta cada que cambia el valor del nombre del vehiculo');
-        console.log('el valor de la variable es ', nombreVehiculo);
-        
-    }, [nombreVehiculo]);
+        if(edad>18){
+            setEsMenorDeEdad(false)
+            console.log('la persona es mayor de edad')
+        } else{
+            setEsMenorDeEdad(true)
+            console.log('la persona es menor de edad')
+        }
 
-    const enviarDatosAlBackend = () => {
-        console.log('El nombre del vehiculo es: ', nombreVehiculo)
-    }
-
-    // const cambioDeNombre = (e) => {
-    //     console.log('nombre: ', e.target.value);
-    // };
-
-    // const cambioDeMarca = (e) => {
-    //     console.log('marca: ', e.target.value);
-
-    // };
-
-
+    }, [edad]);
 
     return (
         <form className='flex flex-col'>
             <h2>formulario de creacion de vehiculos</h2>
+            <label htmlfor='edad'>
+                porfavor ingrese su edad
+                <input value={edad} onChange={(e)=>{setEdad(e.target.value)}} name='edad' type='number' />
+            </label>
+            {
+                esMenorDeEdad ? (<span className='text-3xl text-red-500'>usted es menor de edad! you cant make payments</span>) : (<span className='text-3xl text-yellow-500'>usted es mayor de edad! you can make payments</span>)
+            }
+            <button onClick={() => setMostrarCamposAdicionales(true)} type='button' className='text-white bg-indigo-500' >
+                mostrar campos adicionales
+            </button>
+            {mostrarCamposAdicionales && (
+                <div>
+                    <input className='border bg-gray-400 my-2 p-3' placeholder='dato nuevo' type="text" />
+                    <input className='border bg-gray-400 my-2 p-3' placeholder='dato nuevo' type="text" />
+                    <input className='border bg-gray-400 my-2 p-3' placeholder='dato nuevo' type="text" />
+                    <input className='border bg-gray-400 my-2 p-3' placeholder='dato nuevo' type="text" />
+                    <input className='border bg-gray-400 my-2 p-3' placeholder='dato nuevo' type="text" />
+                </div>
+            )}
             
-            <input onChange={(e) => {
-                setNombreVehiculo(e.target.value)
-            }} 
-            type="text" placeholder='Nombre del vehiculo'/>
-
-            <input onChange={(e) => {
-                console.log(e.target.value)
-            }} 
-            type="text" placeholder='Marca del vehiculo'/>
-
-            <input type="text" placeholder='Modelo del vehiculo'/>
-            <button type='button' onClick={enviarDatosAlBackend} className='bg-indigo-500 text-white'>Send data</button>
-
         </form>
     )
 }
