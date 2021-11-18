@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom'
 const Login = () => {
     return (
         <div className='m-10'>
-            <div className='flex flex-col mt-60 justify-center items-center'>
-                logo
-            </div>
             <div className='flex w-full flex-col justify-center items-center'>
 
                 <h2 className='m-3 text-center text-3xl font-extrabold text-gray-900'>Iniciar sesion en tu cuenta</h2>
