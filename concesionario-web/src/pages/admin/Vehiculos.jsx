@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -61,7 +61,7 @@ const Vehiculos = () => {
             <div className='flex flex-col'>
                 <h2 className='text-3xl font-extrabold text-gray-900'>pagina de administracion de vehiculos</h2>
                 <button onClick={()=>{setMostrarTabla(!mostrarTabla)}} className={`text-white bg-${colorBoton}-500 p-6 rounded-full m-6 w-25 self-end`} type='button' >{textBoton}</button>
-                {mostrarTabla ? <TablaVehiculos listaVehiculos={vehiculos} /> : <FormularioVehiculos FuncionMostrarTable ={setMostrarTabla} funcionAgregarVehiculo={setVehiculos} listaVehiculos={vehiculos} />}
+                {mostrarTabla ? <TablaVehiculos listaVehiculos={vehiculos} /> : <FormularioVehiculos setMostrarTabla ={setMostrarTabla} setVehiculos={setVehiculos} listaVehiculos={vehiculos} />}
                 <ToastContainer position='bottom-center' autoClose={5000}/>
             </div>
         </div>
@@ -102,55 +102,44 @@ const TablaVehiculos = ({ listaVehiculos }) => {
     );
 
 }
-const FormularioVehiculos = ({ FuncionMostrarTable, listaVehiculos, funcionAgregarVehiculo }) => {
-    const [nombre, setNombre] = useState('')
-    const [marca, setMarca] = useState('')
-    const [modelo, setModelo] = useState('')
+const FormularioVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) => {
+    const form = useRef(null);
 
-    const enviarAlBackend = () => {
-        console.log('nombre', nombre, 'marca', marca, 'modelo', modelo);
-        if(nombre === '' || marca === '' || modelo === ''){
-            toast.error('Complete todos los campos')
-        } else {
-            toast.success('vehiculo creado con exito');
-            FuncionMostrarTable(true);
-            funcionAgregarVehiculo([
-                ...listaVehiculos, {nombre:nombre, marca:marca, modelo:modelo}, 
-            ]);
-        }
+    const submitForm = (e) =>{
+        e.preventDefault();
+        const fd = new FormData(form.current);
+
+        const nuevoVehiculo = {};
+        fd.forEach((value, key) => {
+            nuevoVehiculo[key] = value;
+        });
+        setMostrarTabla(true)
+        setVehiculos([...listaVehiculos, nuevoVehiculo]);
+        //identificar el caso de exito y mostrar el toast de exito
+        toast.success('vehiculo agregado con exito');
+        //identificar el caso de error y mostrar el toast de error
+        //toast.error('vehiculo agregado con exito');
+
 
     };
 
     return (
     <div className=''>
         <h2 className='text-2xl font-extrabold text-gray-800 mb-5'>crear nuevo vehiculo</h2>
-        <form className='flex flex-col'>
+        <form ref={form} onSubmit={submitForm} className='flex flex-col'>
             <label className='flex flex-col' htmlFor='nombre'>
                 Nombre del vehiculo
-                <input name='nombre' 
+                <input 
+                    name='nombre' 
                     className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2' 
                     type="text"
                     placeholder='corolla'
-                    value={nombre}
-                    onChange={(e)=>{
-                        setNombre(e.target.value);
-                    }}
-                    required
-                />
-                {/* <input className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2' type="text" />
-                <input className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2' type="text" /> */}
+                    required />
             </label>
             <label className='flex flex-col' htmlFor='marca'>
                 Marca del vehiculo
-                <select value={marca}
-                        onChange={(e)=>{
-                        setMarca(e.target.value);
-                        }}
-                        className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2' 
-                        name='marca'
-                        required
-                >
-                    <option disabled>Seleccione una ocpion</option>
+                <select className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2' name='marca' defaultValue={0} required>
+                    <option disabled value={0}>Seleccione una ocpion</option>
                     <option>ford</option>
                     <option>renault</option>
                     <option>toyota</option>
@@ -166,22 +155,13 @@ const FormularioVehiculos = ({ FuncionMostrarTable, listaVehiculos, funcionAgreg
                     type="number" 
                     min={1992} 
                     max={2022} 
-                    placeholder='2014' 
-                    value={modelo}
-                    onChange={(e)=>{
-                        setModelo(e.target.value);
-                    }}
-                    required
-                />
+                    placeholder='2014'
+                    required />
             </label>
 
             <button 
                 type='submit' 
-                className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-100 text-white'
-                onClick={()=>{
-                    enviarAlBackend();
-                }}
-            >
+                className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-100 text-white'>
                 Guardar vehiculo
             </button>
         </form>
