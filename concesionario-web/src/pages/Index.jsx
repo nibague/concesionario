@@ -1,11 +1,13 @@
-import React from 'react'
+import { useDarkMode } from 'context/DarkMode';
+import React from 'react';
 
 const Index = () => {
+    const { darkMode } = useDarkMode();
     return (
-        <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis a natus temporibus hic, minus sint incidunt? Deleniti commodi a atque repudiandae exercitationem dicta, nihil vel ipsum sequi sint assumenda fuga!
+        <div className={`flex h-full bg-gray-${ darkMode ? '900' : '50'}`}>
+            contenido landing concesionario
         </div>
-    )
-}
+    );
+};
 
 export default Index
