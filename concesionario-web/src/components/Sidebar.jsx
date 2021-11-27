@@ -9,7 +9,7 @@ import { fas, fa } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = () => {
     return (
-        <nav className='w-72 border bg-gray-300 h-full flex flex-col p-4 sidebar'>
+        <nav className='border bg-gray-300 h-full flex flex-col p-4 sidebar'>
             <Link to='/admin'>
                 <ImagenLogo />
             </Link>
