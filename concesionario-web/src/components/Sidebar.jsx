@@ -3,23 +3,24 @@ import ImagenLogo from './ImagenLogo';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro';
-import { fas, fa } from '@fortawesome/free-solid-svg-icons';
 
 
 const Sidebar = () => {
     return (
-        <nav className='hidden md:flex md:w-72 border bg-gray-300 h-full flex-col p-4 sidebar'>
-            <Link to='/admin'>
-                <ImagenLogo />
-            </Link>
-            <div className='my-4'>
-                <Ruta icono={solid('user')} ruta='/admin/perfil' nombre='perfil'/>
-                <Ruta icono={solid('car')} ruta='/admin/vehiculos' nombre='vehiculos'/>
-                <Ruta icono={solid('cash-register')} ruta='/admin/ventas' nombre='ventas'/>
-                <Ruta icono={solid('users')} ruta='/admin/usuarios' nombre='usuarios'/>
-            </div>
-            <button>Log out</button>
-        </nav>
+        <div>
+            <nav className='hidden md:flex md:w-72 border bg-gray-300 h-full flex-col p-4 sidebar'>
+                <Link to='/admin'>
+                    <ImagenLogo />
+                </Link>
+                <div className='my-4'>
+                    <Ruta icono={solid('user')} ruta='/admin/perfil' nombre='perfil'/>
+                    <Ruta icono={solid('car')} ruta='/admin/vehiculos' nombre='vehiculos'/>
+                    <Ruta icono={solid('cash-register')} ruta='/admin/ventas' nombre='ventas'/>
+                    <Ruta icono={solid('users')} ruta='/admin/usuarios' nombre='usuarios'/>
+                </div>
+                <button>Log out</button>
+            </nav>
+        </div>
     )
 };
 
