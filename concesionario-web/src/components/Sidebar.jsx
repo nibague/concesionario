@@ -1,7 +1,6 @@
 import React from 'react'
 import ImagenLogo from './ImagenLogo';
 import { Link } from 'react-router-dom';
-import '../styles/responsive-test.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { fas, fa } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +8,7 @@ import { fas, fa } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = () => {
     return (
-        <nav className='border bg-gray-300 h-full flex flex-col p-4 sidebar'>
+        <nav className='hidden md:flex md:w-72 border bg-gray-300 h-full flex-col p-4 sidebar'>
             <Link to='/admin'>
                 <ImagenLogo />
             </Link>

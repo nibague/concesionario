@@ -1,6 +1,5 @@
 import React, { useState, useEffect} from 'react';
 import 'styles/styles.css';
-import 'styles/responsive-test.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from 'pages/Login';
 import Registro from 'pages/Registro';
