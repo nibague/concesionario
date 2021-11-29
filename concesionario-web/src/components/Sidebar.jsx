@@ -14,6 +14,7 @@ const Sidebar = () => {
                 <ImagenLogo />
             </Link>
             <div className='my-4'>
+                {/* en el componente ruta se especifican los parametros (icono) donde se escribe categoria y nombre del icono de fontawesome */}
                 <Ruta icono={solid('user')} ruta='/admin/perfil' nombre='perfil'/>
                 <Ruta icono={solid('car')} ruta='/admin/vehiculos' nombre='vehiculos'/>
                 <Ruta icono={solid('cash-register')} ruta='/admin/ventas' nombre='ventas'/>
