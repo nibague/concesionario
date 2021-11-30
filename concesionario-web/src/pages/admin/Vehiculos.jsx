@@ -113,12 +113,28 @@ const FormularioVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) 
         fd.forEach((value, key) => {
             nuevoVehiculo[key] = value;
         });
+
+        const options = {
+            method: 'POST',
+            url: 'aqui va la url',
+            headers: {'Content-Type': 'application/json'},
+            data: { name: nuevoVehiculo.name, brand: nuevoVehiculo.brand, model:nuevoVehiculo.model },
+
+        };
+
+        axios.request(options).then(function (response) {
+                console.log(response.data);
+                toast.success('vehiculo agregado con exito');
+            })
+            .catch(function (error) {
+                console.error(error);
+                toast.error('Error al cargar el vehiculo');
+            });
+        
         setMostrarTabla(true)
         setVehiculos([...listaVehiculos, nuevoVehiculo]);
         //identificar el caso de exito y mostrar el toast de exito
-        toast.success('vehiculo agregado con exito');
         //identificar el caso de error y mostrar el toast de error
-        //toast.error('vehiculo agregado con exito');
 
 
     };
@@ -130,7 +146,7 @@ const FormularioVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) 
             <label className='flex flex-col' htmlFor='nombre'>
                 Nombre del vehiculo
                 <input 
-                    name='nombre' 
+                    name='name' 
                     className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2' 
                     type="text"
                     placeholder='corolla'
@@ -138,7 +154,7 @@ const FormularioVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) 
             </label>
             <label className='flex flex-col' htmlFor='marca'>
                 Marca del vehiculo
-                <select className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2' name='marca' defaultValue={0} required>
+                <select className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2' name='brand' defaultValue={0} required>
                     <option disabled value={0}>Seleccione una ocpion</option>
                     <option>ford</option>
                     <option>renault</option>
@@ -150,7 +166,7 @@ const FormularioVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) 
             <label className='flex flex-col' htmlFor='modelo'>
                 Nombre del vehiculo
                 <input 
-                    name='modelo' 
+                    name='model' 
                     className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2' 
                     type="number" 
                     min={1992} 
