@@ -41,8 +41,20 @@ const Vehiculos = () => {
     
 
     useEffect(()=>{
+        const obtenerVehiculos = async () => {
+            const options = { method: 'GET', url: 'THE URL IS HERE'};
+            await axios
+                .request(options)
+                .then(function (response) {
+                    setVehiculos(response.data);
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+
+        };
         //obtener lista de vehiculos desde el frontend
-        setVehiculos(vehiculosBackend); 
+        //setVehiculos(vehiculosBackend);
 
     }, [])
 
@@ -122,7 +134,9 @@ const FormularioVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) 
 
         };
 
-        axios.request(options).then(function (response) {
+        await axios
+            .request(options)
+            .then(function (response) {
                 console.log(response.data);
                 toast.success('vehiculo agregado con exito');
             })
