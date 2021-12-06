@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 //realizar un formulario que pida edad y muestre un mensaje
 //mostrar si es mayor o menor
