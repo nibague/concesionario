@@ -3,3 +3,23 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.tabla tr:nth-child(even){
+    background-color: whitesmoke;
+
+}
+
+.tabla td, 
+.tabla th{
+    padding: 15px;
+    border: 1px solid;
+    border-color: black;
+}
+
+.tabla th {
+    background-color: rgb(76, 76, 250);
+    color:azure;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+}

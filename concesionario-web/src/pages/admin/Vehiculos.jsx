@@ -76,9 +76,9 @@ const TablaVehiculos = ({ listaVehiculos }) => {
 
     }, [listaVehiculos])
     return (
-        <div className=''>
+        <div className='flex flex-col items-center justify-center w-full'>
             <h2 className='text-2xl font-extrabold text-gray-800 mb-10'>Todos los vehiculos</h2>
-            <table className='border border-black-300'>
+            <table className='tabla'>
                 <thead className='bg-gray-200'>
                     <tr>
                         <th className='pr-20'>Vehicle Name</th>
