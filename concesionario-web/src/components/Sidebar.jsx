@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import ImagenLogo from './ImagenLogo';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro';
-import { useLocation } from 'react-router-dom';
+import useActiveRoute from '../hooks/useActiveRoute';
 
 
 const Sidebar = () => {
@@ -26,16 +26,7 @@ const Sidebar = () => {
 };
 
 const Ruta = ({icono, ruta, nombre}) => {
-    const location = useLocation();
-    const [isActive, setIsActive] = useState(false);
-    useEffect(() => {
-        console.log(location, ruta);
-        if(location.pathname.includes(ruta)){ //esto permite que el boton del sidebar actual se resalte aun asi este en otra ruta dentro de la actual
-            setIsActive(true);
-        } else{
-            setIsActive(false);
-        }
-    }, [location, ruta])
+    const isActive = useActiveRoute(ruta)
     return (
         <Link to={ruta}>
             <button className={`my-1 text-lg pl-7 p-2 bg-${
