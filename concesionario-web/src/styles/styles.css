@@ -3,17 +3,21 @@
 @tailwind components;
 @tailwind utilities;
 
+.tabla {
+    width:100%;
+    margin: 10px;
+    overflow-y:scroll;
+}
 
 .tabla tr:nth-child(even){
-    background-color: whitesmoke;
-
+    background-color: rgb(230, 230, 230);
 }
 
 .tabla td, 
 .tabla th{
-    padding: 15px;
+    padding: 8px;
     border: 1px solid;
-    border-color: black;
+    border-color: rgb(224, 224, 224);
 }
 
 .tabla th {
@@ -22,4 +26,8 @@
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
+}
+
+.tabla tr:hover{
+    background-color: #ddd;
 }

@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import React, {useEffect, useState, useRef} from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -57,8 +58,9 @@ const Vehiculos = () => {
         }
     }, [mostrarTabla]);
     return (
-        <div className='flex h-full w-full flex-col items-center justify-start p-8'>
-            <div className='flex flex-col'>
+        <div className='flex flex-col h-full w-full items-center justify-start p-8'>
+            <div className='flex flex-col'> 
+            {/* cambiar a w-full para que la tabla ocupe toda la pantalla */}
                 <h2 className='text-3xl font-extrabold text-gray-900'>pagina de administracion de vehiculos</h2>
                 <button onClick={()=>{setMostrarTabla(!mostrarTabla)}} className={`text-white bg-${colorBoton}-500 p-6 rounded-full m-6 w-25 self-end`} type='button' >{textBoton}</button>
                 {mostrarTabla ? <TablaVehiculos listaVehiculos={vehiculos} /> : <FormularioVehiculos setMostrarTabla ={setMostrarTabla} setVehiculos={setVehiculos} listaVehiculos={vehiculos} />}
@@ -78,7 +80,7 @@ const TablaVehiculos = ({ listaVehiculos }) => {
     return (
         <div className='flex flex-col items-center justify-center w-full'>
             <h2 className='text-2xl font-extrabold text-gray-800 mb-10'>Todos los vehiculos</h2>
-            <table className='tabla'>
+            <table className='tabla w-full'>
                 <thead className='bg-gray-200'>
                     <tr>
                         <th className='pr-20'>Vehicle Name</th>
@@ -89,7 +91,7 @@ const TablaVehiculos = ({ listaVehiculos }) => {
                 <tbody>
                     {listaVehiculos.map((vehiculo)=>{
                         return (
-                            <tr className='border border-black-300'>    
+                            <tr key={nanoid()} className='border border-black-300'>    
                                 <td>{vehiculo.nombre}</td>
                                 <td>{vehiculo.marca}</td>
                                 <td>{vehiculo.modelo}</td>
