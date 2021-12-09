@@ -2,6 +2,9 @@ import { nanoid } from 'nanoid';
 import React, {useEffect, useState, useRef} from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro';
+
 
 //realizar un formulario que pida edad y muestre un mensaje
 //mostrar si es mayor o menor
@@ -58,8 +61,8 @@ const Vehiculos = () => {
         }
     }, [mostrarTabla]);
     return (
-        <div className='flex flex-col h-full w-full items-center justify-start p-8'>
-            <div className='flex flex-col'> 
+        <div className='flex flex-col h-full w-auto items-center p-8'>
+            <div className='flex flex-col'>
             {/* cambiar a w-full para que la tabla ocupe toda la pantalla */}
                 <h2 className='text-3xl font-extrabold text-gray-900'>pagina de administracion de vehiculos</h2>
                 <button onClick={()=>{setMostrarTabla(!mostrarTabla)}} className={`text-white bg-${colorBoton}-500 p-6 rounded-full m-6 w-25 self-end`} type='button' >{textBoton}</button>
@@ -73,37 +76,87 @@ const Vehiculos = () => {
 };
 
 const TablaVehiculos = ({ listaVehiculos }) => {
+
+    const form = useRef(null);
+
     useEffect(() => {
         console.log('este es el estado de vehiculos en el componente de tabla', listaVehiculos);
 
     }, [listaVehiculos])
-    return (
-        <div className='flex flex-col items-center justify-center w-full'>
+
+    return ( 
+        <div className='flex flex-col'>
             <h2 className='text-2xl font-extrabold text-gray-800 mb-10'>Todos los vehiculos</h2>
-            <table className='tabla w-full'>
-                <thead className='bg-gray-200'>
-                    <tr>
-                        <th className='pr-20'>Vehicle Name</th>
-                        <th className='pr-20'>Vehicle Brand</th>
-                        <th className='pr-20'>Vehicle Model</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {listaVehiculos.map((vehiculo)=>{
-                        return (
-                            <tr key={nanoid()} className='border border-black-300'>    
-                                <td>{vehiculo.nombre}</td>
-                                <td>{vehiculo.marca}</td>
-                                <td>{vehiculo.modelo}</td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+                <table className='tabla'>
+                    <thead className='bg-gray-200'>
+                        <tr>
+                            <th className='pr-20'>Vehicle Name</th>
+                            <th className='pr-20'>Vehicle Brand</th>
+                            <th className='pr-20'>Vehicle Model</th>
+                            <th className='pr-20'>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listaVehiculos.map((vehiculo)=>{
+                            return <FilaVehiculo key={nanoid()} vehiculo={vehiculo}/>;
+                            
+                        })}
+                    </tbody>
+                </table>
         </div>
     );
 
 }
+
+const FilaVehiculo = ( {vehiculo} ) => {
+    const [edit, setEdit] = useState(false);
+
+    const [infoNuevoVehiculo, setInfoNuevoVehiculo] = useState({
+        nombre: vehiculo.nombre,
+        marca: vehiculo.marca,
+        modelo: vehiculo.modelo
+    });
+
+    const actualizarVehiculo = () => {
+        console.log(infoNuevoVehiculo);
+        //enviar info al backend
+    }
+
+    return (
+        <tr className='border border-black-300'>
+            {edit? (
+                <>
+                <td><input className='bg-gray-50 border border-gray-600 p-1 rounded-lg' type="text" onChange={e=>setInfoNuevoVehiculo({...infoNuevoVehiculo, nombre:e.target.value})} value={infoNuevoVehiculo.nombre}></input></td>
+                <td><input className='bg-gray-50 border border-gray-600 p-1 rounded-lg' type="text" onChange={e=>setInfoNuevoVehiculo({...infoNuevoVehiculo, marca:e.target.value})} value={infoNuevoVehiculo.marca}></input></td>
+                <td><input className='bg-gray-50 border border-gray-600 p-1 rounded-lg' type="text" onChange={e=>setInfoNuevoVehiculo({...infoNuevoVehiculo, modelo:e.target.value})} value={infoNuevoVehiculo.modelo}></input></td>
+                </>
+            ) : (
+                <>
+                <td>{vehiculo.nombre}</td>
+                <td>{vehiculo.marca}</td>
+                <td>{vehiculo.modelo}</td>
+                </>
+                )
+            }
+            <td>
+                <div className='flex justify-around w-full'>
+                    
+                    {edit ? 
+                    (<FontAwesomeIcon onClick={()=> actualizarVehiculo()}
+                    className='hover:text-gray-400' icon={solid('check')}/>
+                    )
+                    :
+                    (<FontAwesomeIcon onClick={()=>setEdit(!edit)} 
+                    className='hover:text-gray-400' icon={solid('pencil')} />
+                    )}
+                    <FontAwesomeIcon className='hover:text-gray-400' icon={solid('trash')} />
+                </div>
+            </td>
+        </tr>
+
+    )
+}
+
 const FormularioVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) => {
     const form = useRef(null);
 
@@ -126,7 +179,7 @@ const FormularioVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) 
     };
 
     return (
-    <div className=''>
+    <div className='w-96 items-center'>
         <h2 className='text-2xl font-extrabold text-gray-800 mb-5'>crear nuevo vehiculo</h2>
         <form ref={form} onSubmit={submitForm} className='flex flex-col'>
             <label className='flex flex-col' htmlFor='nombre'>
