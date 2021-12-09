@@ -117,9 +117,47 @@ const FilaVehiculo = ( {vehiculo} ) => {
         modelo: vehiculo.modelo
     });
 
-    const actualizarVehiculo = () => {
+    const actualizarVehiculo = async () => {
         console.log(infoNuevoVehiculo);
         //enviar info al backend
+        const options = {
+            method: 'DELETE',
+            url: 'http://localhost:3000/vehicle/update',
+            headers: { 'content-type':'aplication/json' },
+            data: { ...infoNuevoVehiculo, id: vehiculo._id}
+        };
+
+        await axios
+            .request(options)
+            .then(function (response){
+                console.log(response.data);
+                toast.succes('vehiculo modificado exitosamente');
+                setEdit(false);
+            })
+            .catch(function(error){
+                toast.error('error al modificar el vehiculo');
+                console.log(error);
+            });
+    }
+
+    const eliminarVehiculo = () =>{
+        const options = {
+            method: 'DELETE',
+            url: 'http://localhost:3000/vehicle/delete',
+            headers: { 'content-type':'aplication/json' },
+            data: {id: vehiculo._id}
+        };
+
+        await axios
+            .request(options)
+            .then(function (response){
+                console.log(response.data);
+                toast.success('vehiculo eliminado')
+            })
+            .catch(function(error){
+                console.log(error);
+                toast.error('error, vehiculo no eliminado')
+            });
     }
 
     return (
@@ -149,7 +187,7 @@ const FilaVehiculo = ( {vehiculo} ) => {
                     (<FontAwesomeIcon onClick={()=>setEdit(!edit)} 
                     className='hover:text-gray-400' icon={solid('pencil')} />
                     )}
-                    <FontAwesomeIcon className='hover:text-gray-400' icon={solid('trash')} />
+                    <FontAwesomeIcon onClick={()=>eliminarVehiculo()} className='hover:text-gray-400' icon={solid('trash')} />
                 </div>
             </td>
         </tr>
