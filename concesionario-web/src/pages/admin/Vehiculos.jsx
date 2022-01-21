@@ -121,7 +121,7 @@ const FormularioVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) 
     const submitForm = (e) =>{
         e.preventDefault();
         const fd = new FormData(form.current);
-
+        //backen -----------------------------------------------------------
         const nuevoVehiculo = {};
         fd.forEach((value, key) => {
             nuevoVehiculo[key] = value;
