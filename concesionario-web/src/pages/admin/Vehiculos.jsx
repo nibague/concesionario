@@ -143,6 +143,7 @@ const FilaVehiculo = ( {vehiculo} ) => {
                     
                     {edit ? 
                     (<FontAwesomeIcon onClick={()=> actualizarVehiculo()}
+                    //poner set edit para que permita deshacer la edicion
                     className='hover:text-gray-400' icon={solid('check')}/>
                     )
                     :
