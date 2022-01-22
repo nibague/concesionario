@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro';
+import axios from 'axios';
 
 
 //realizar un formulario que pida edad y muestre un mensaje
@@ -45,20 +46,31 @@ const Vehiculos = () => {
     
 
     useEffect(()=>{
-        //obtener lista de vehiculos desde el frontend
-        setVehiculos(vehiculosBackend); 
+        const obtenerVehiculos = async () => {
+            const options = {
+                method: 'DELETE',
+                url: 'http://localhost:3000/vehicle/update...herokuapp'
+                
+            };
+        
+            await axios
+                .request(option)
+                .then(function (response) {
+                    console.log(response.data);
+                })
+                .catch(function(error){
+                    console.error(error);
+                });
 
-    }, [])
+        }; 
+        //obtener lista de vehiculos desde el frontend
+        //setVehiculos(vehiculosBackend);
+        if(mostrarTabla){
+            obtenerVehiculos()
+        }
+    }, [mostrarTabla]);
 
     useEffect(()=>{
-        if(mostrarTabla){
-            setTextBoton('crear nuevo vehiculo');
-            setColorBoton('indigo')
-
-        }else {
-            setTextBoton('mostrar vehiculos')
-            setColorBoton('red')
-        }
     }, [mostrarTabla]);
     return (
         <div className='flex flex-col h-full w-auto items-center p-8'>
@@ -117,9 +129,48 @@ const FilaVehiculo = ( {vehiculo} ) => {
         modelo: vehiculo.modelo
     });
 
-    const actualizarVehiculo = () => {
+    const actualizarVehiculo = async () => {
         console.log(infoNuevoVehiculo);
         //enviar info al backend
+        const options = {
+            method: 'PATCH',
+            url: 'http://localhost:3000/vehicle/update...herokuapp'
+            headers: {'content-type': 'application/json'},
+            data: { ...infoNuevoVehiculo, id: vehiculo._id },
+        };
+    
+        await axios
+            .request(option)
+            .then(function (response) {
+                console.log(response.data);
+                toast.success('vehiculo modificado con exito')
+                setEdit(false);
+            })
+            .catch(function(error){
+                console.error(error);
+                toast.error('error creando el vehiculo')
+            });
+    };
+
+    const EliminarVehiculo = () =>{
+        const options = {
+            method: 'DELETE',
+            url: 'http://localhost:3000/vehicle/update...herokuapp'
+            headers: {'content-type': 'application/json'},
+            data: { id: vehiculo._id },
+        };
+    
+        await axios
+            .request(option)
+            .then(function (response) {
+                console.log(response.data);
+                toast.success('vehiculo eliminado con exito')
+                setEdit(false);
+            })
+            .catch(function(error){
+                console.error(error);
+                toast.error('error al eliminar el vehiculo')
+            });
     }
 
     return (
@@ -150,7 +201,7 @@ const FilaVehiculo = ( {vehiculo} ) => {
                     (<FontAwesomeIcon onClick={()=>setEdit(!edit)} 
                     className='hover:text-gray-400' icon={solid('pencil')} />
                     )}
-                    <FontAwesomeIcon className='hover:text-gray-400' icon={solid('trash')} />
+                    <FontAwesomeIcon onClick={()=> EliminarVehiculo()} className='hover:text-gray-400' icon={solid('trash')} />
                 </div>
             </td>
         </tr>
