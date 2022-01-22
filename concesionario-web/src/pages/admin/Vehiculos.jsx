@@ -43,14 +43,13 @@ const Vehiculos = () => {
     const [vehiculos, setVehiculos] = useState([]);
     const [textBoton, setTextBoton] = useState('crear nuevo vehiculo');
     const [colorBoton, setColorBoton] = useState('indigo');
-    
+    const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
 
-    useEffect(()=>{
+    useEffect(() => {
         const obtenerVehiculos = async () => {
             const options = {
                 method: 'GET',
-                url: 'http://localhost:3000/vehicle/update...herokuapp'
-                
+                url: 'http://localhost:3000/vehicle/update...herokuapp' 
             };
         
             await axios
@@ -62,23 +61,34 @@ const Vehiculos = () => {
                     console.error(error);
                 });
 
-        }; 
+        };
+
+        if(ejecutarConsulta){
+            obtenerVehiculos()
+            setEjecutarConsulta(false);
+        }
+
+    }, [ejecutarConsulta]);
+    
+
+    useEffect(()=>{
+         
         //obtener lista de vehiculos desde el frontend
         //setVehiculos(vehiculosBackend);
         if(mostrarTabla){
-            obtenerVehiculos()
+            setEjecutarConsulta(true);
         }
     }, [mostrarTabla]);
 
     useEffect(()=>{
     }, [mostrarTabla]);
     return (
-        <div className='flex flex-col h-full w-auto items-center p-8'>
+        <div className='flex flex-col h-full w-full justify-start items-center p-8'>
             <div className='flex flex-col'>
             {/* cambiar a w-full para que la tabla ocupe toda la pantalla */}
                 <h2 className='text-3xl font-extrabold text-gray-900'>pagina de administracion de vehiculos</h2>
                 <button onClick={()=>{setMostrarTabla(!mostrarTabla)}} className={`text-white bg-${colorBoton}-500 p-6 rounded-full m-6 w-25 self-end`} type='button' >{textBoton}</button>
-                {mostrarTabla ? <TablaVehiculos listaVehiculos={vehiculos} /> : <FormularioVehiculos setMostrarTabla ={setMostrarTabla} setVehiculos={setVehiculos} listaVehiculos={vehiculos} />}
+                {mostrarTabla ? <TablaVehiculos listaVehiculos={vehiculos} setEjecutarConsulta = {setEjecutarConsulta} /> : <FormularioVehiculos setMostrarTabla ={setMostrarTabla} setVehiculos={setVehiculos} listaVehiculos={vehiculos} />}
                 <ToastContainer position='bottom-center' autoClose={5000}/>
             </div>
         </div>
@@ -87,7 +97,7 @@ const Vehiculos = () => {
     
 };
 
-const TablaVehiculos = ({ listaVehiculos }) => {
+const TablaVehiculos = ({ listaVehiculos, setEjecutarConsulta }) => {
 
     const form = useRef(null);
 
@@ -110,7 +120,7 @@ const TablaVehiculos = ({ listaVehiculos }) => {
                     </thead>
                     <tbody>
                         {listaVehiculos.map((vehiculo)=>{
-                            return <FilaVehiculo key={nanoid()} vehiculo={vehiculo}/>;
+                            return <FilaVehiculo key={nanoid()} vehiculo={vehiculo} setEjecutarConsulta = {setEjecutarConsulta} />;
                             
                         })}
                     </tbody>
@@ -120,7 +130,7 @@ const TablaVehiculos = ({ listaVehiculos }) => {
 
 }
 
-const FilaVehiculo = ( {vehiculo} ) => {
+const FilaVehiculo = ( { vehiculo, setEjecutarConsulta } ) => {
     const [edit, setEdit] = useState(false);
 
     const [infoNuevoVehiculo, setInfoNuevoVehiculo] = useState({
@@ -152,7 +162,7 @@ const FilaVehiculo = ( {vehiculo} ) => {
             });
     };
 
-    const EliminarVehiculo = () =>{
+    const EliminarVehiculo = async () =>{
         const options = {
             method: 'DELETE',
             url: 'http://localhost:3000/vehicle/update...herokuapp'
@@ -166,6 +176,7 @@ const FilaVehiculo = ( {vehiculo} ) => {
                 console.log(response.data);
                 toast.success('vehiculo eliminado con exito')
                 setEdit(false);
+                setEjecutarConsulta();
             })
             .catch(function(error){
                 console.error(error);
