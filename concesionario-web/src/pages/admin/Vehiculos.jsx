@@ -220,10 +220,31 @@ const FormularioVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) 
         fd.forEach((value, key) => {
             nuevoVehiculo[key] = value;
         });
+
+        const options = {
+            method: 'POST',
+            url: 'http://localhost:3000/vehicle/update...herokuapp'
+            headers: {'content-type': 'application/json'},
+            data: { name: nuevoVehiculo.name, brand: nuevoVehiculo.brand, model: nuevoVehiculo.model },
+        };
+    
+        await axios
+            .request(option)
+            .then(function (response) {
+                console.log(response.data);
+                toast.success('vehiculo agrgado con exito')
+            })
+            .catch(function(error){
+                console.error(error);
+                toast.error('error creando el vehiculo')
+            });
+
+
+
         setMostrarTabla(true)
-        setVehiculos([...listaVehiculos, nuevoVehiculo]);
+        //setVehiculos([...listaVehiculos, nuevoVehiculo]);
         //identificar el caso de exito y mostrar el toast de exito
-        toast.success('vehiculo agregado con exito');
+        //toast.success('vehiculo agregado con exito');
         //identificar el caso de error y mostrar el toast de error
         //toast.error('vehiculo agregado con exito');
 
