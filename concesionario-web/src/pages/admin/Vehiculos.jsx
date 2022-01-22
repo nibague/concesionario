@@ -2,9 +2,9 @@ import { nanoid } from 'nanoid';
 import React, {useEffect, useState, useRef} from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Tooltip } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro';
-
 
 //realizar un formulario que pida edad y muestre un mensaje
 //mostrar si es mayor o menor
@@ -149,8 +149,10 @@ const FilaVehiculo = ( {vehiculo} ) => {
                     :
                     (<FontAwesomeIcon onClick={()=>setEdit(!edit)} 
                     className='hover:text-gray-400' icon={solid('pencil')} />
-                    )}
-                    <FontAwesomeIcon className='hover:text-gray-400' icon={solid('trash')} />
+                    )} 
+                    <Tooltip title='eliminar vehiculo'>
+                        <FontAwesomeIcon className='hover:text-gray-400' icon={solid('trash')} />
+                    </Tooltip>
                 </div>
             </td>
         </tr>
