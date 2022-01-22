@@ -48,7 +48,7 @@ const Vehiculos = () => {
     useEffect(()=>{
         const obtenerVehiculos = async () => {
             const options = {
-                method: 'DELETE',
+                method: 'GET',
                 url: 'http://localhost:3000/vehicle/update...herokuapp'
                 
             };
