@@ -1,10 +1,10 @@
 import { nanoid } from 'nanoid';
-import React, {useEffect, useState, useRef} from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Tooltip } from '@material-ui/core';
+import React, {useEffect, useState, useRef} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro';
+import Tooltip from '@mui/material/Tooltip';
+import 'react-toastify/dist/ReactToastify.css';
 
 //realizar un formulario que pida edad y muestre un mensaje
 //mostrar si es mayor o menor
@@ -119,6 +119,7 @@ const FilaVehiculo = ( {vehiculo} ) => {
 
     const actualizarVehiculo = () => {
         console.log(infoNuevoVehiculo);
+        setEdit(false)
         //enviar info al backend
     }
 
@@ -141,18 +142,24 @@ const FilaVehiculo = ( {vehiculo} ) => {
             <td>
                 <div className='flex justify-around w-full'>
                     
-                    {edit ? 
-                    (<FontAwesomeIcon onClick={()=> actualizarVehiculo()}
+                    {edit ? (
+                     <i><FontAwesomeIcon onClick={()=> actualizarVehiculo()}
                     //poner set edit para que permita deshacer la edicion
                     className='hover:text-gray-400' icon={solid('check')}/>
-                    )
-                    :
-                    (<FontAwesomeIcon onClick={()=>setEdit(!edit)} 
+                    
+                    <FontAwesomeIcon onClick={()=>setEdit(!edit)} 
+                    className='hover:text-gray-400 ml-3' icon={solid('ban')} />
+                    </i>
+                    ) : ( 
+                    <i>
+                    <FontAwesomeIcon onClick={()=>setEdit(!edit)} 
                     className='hover:text-gray-400' icon={solid('pencil')} />
-                    )} 
                     <Tooltip title='eliminar vehiculo'>
-                        <FontAwesomeIcon className='hover:text-gray-400' icon={solid('trash')} />
+                        <FontAwesomeIcon className='hover:text-gray-400 ml-3' icon={solid('trash')} />
                     </Tooltip>
+                    </i>
+                    )}
+
                 </div>
             </td>
         </tr>
