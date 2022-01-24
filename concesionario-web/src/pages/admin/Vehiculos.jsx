@@ -4,6 +4,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro';
 import Tooltip from '@mui/material/Tooltip';
+import Dialog from '@mui/material/Dialog';
 import 'react-toastify/dist/ReactToastify.css';
 
 //realizar un formulario que pida edad y muestre un mensaje
@@ -79,6 +80,21 @@ const TablaVehiculos = ({ listaVehiculos }) => {
 
     const form = useRef(null);
 
+    const [busqueda, setBusqueda] = useState('');
+    const [vehiculosFiltrados, setVehiculosFiltrados] = useState(listaVehiculos);
+
+    useEffect(() => {
+        console.log('busqueda', busqueda);
+        console.log('lista original', listaVehiculos);
+        setVehiculosFiltrados(
+            listaVehiculos.filter((elemento) => {
+                    console.log('elemento', elemento);
+                    return JSON.stringify(elemento).toLowerCase().includes(busqueda.toLowerCase());
+            })
+        );
+    }, [busqueda, listaVehiculos]);
+    
+
     useEffect(() => {
         console.log('este es el estado de vehiculos en el componente de tabla', listaVehiculos);
 
@@ -86,7 +102,15 @@ const TablaVehiculos = ({ listaVehiculos }) => {
 
     return ( 
         <div className='flex flex-col'>
-            <h2 className='text-2xl font-extrabold text-gray-800 mb-10'>Todos los vehiculos</h2>
+        <input 
+            value = {busqueda}
+            onChange={e=>setBusqueda(e.target.value)}
+            placeholder='Buscar'
+            className='border border-gray-700 p-3 py-1 self-center mt-10 rounded-md focus:outline-none focus:border-indigo-500 '
+            
+        />
+
+            <h2 className='text-2xl font-extrabold text-gray-800 mb-5 mt-5 self-center'>Todos los vehiculos</h2>
                 <table className='tabla'>
                     <thead className='bg-gray-200'>
                         <tr>
@@ -97,7 +121,7 @@ const TablaVehiculos = ({ listaVehiculos }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {listaVehiculos.map((vehiculo)=>{
+                        {vehiculosFiltrados.map((vehiculo)=>{
                             return <FilaVehiculo key={nanoid()} vehiculo={vehiculo}/>;
                             
                         })}
@@ -110,6 +134,7 @@ const TablaVehiculos = ({ listaVehiculos }) => {
 
 const FilaVehiculo = ( {vehiculo} ) => {
     const [edit, setEdit] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
 
     const [infoNuevoVehiculo, setInfoNuevoVehiculo] = useState({
         nombre: vehiculo.nombre,
@@ -155,12 +180,21 @@ const FilaVehiculo = ( {vehiculo} ) => {
                     <FontAwesomeIcon onClick={()=>setEdit(!edit)} 
                     className='hover:text-gray-400' icon={solid('pencil')} />
                     <Tooltip title='eliminar vehiculo'>
-                        <FontAwesomeIcon className='hover:text-gray-400 ml-3' icon={solid('trash')} />
+                        <FontAwesomeIcon onClick={()=> setOpenDialog(true)} className='hover:text-gray-400 ml-3' icon={solid('trash')} />
                     </Tooltip>
                     </i>
                     )}
 
                 </div>
+                <Dialog open={openDialog}>
+                    <div className='p-8 flex flex-col'>
+                        <h1 className='text-gray-900 text-2xl font-bold'>Are you sure you want to delete that?</h1>
+                        <div className='flex w-full items-center justify-center my-4'>
+                            <button className='mx-2 px-4 py-2 bg-gray-500 text-white hover:bg-gray-900 rounded-md shadow-md'>yes</button>
+                            <button onClick={()=>setOpenDialog(false)} className='mx-2 px-4 py-2 bg-gray-500 text-white hover:bg-gray-900 rounded-md shadow-md'>No</button>
+                        </div>
+                    </div>
+                </Dialog>
             </td>
         </tr>
 
