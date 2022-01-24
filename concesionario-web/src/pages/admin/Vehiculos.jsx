@@ -111,22 +111,35 @@ const TablaVehiculos = ({ listaVehiculos }) => {
         />
 
             <h2 className='text-2xl font-extrabold text-gray-800 mb-5 mt-5 self-center'>Todos los vehiculos</h2>
-                <table className='tabla'>
-                    <thead className='bg-gray-200'>
-                        <tr>
-                            <th className='pr-20'>Vehicle Name</th>
-                            <th className='pr-20'>Vehicle Brand</th>
-                            <th className='pr-20'>Vehicle Model</th>
-                            <th className='pr-20'>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {vehiculosFiltrados.map((vehiculo)=>{
-                            return <FilaVehiculo key={nanoid()} vehiculo={vehiculo}/>;
-                            
-                        })}
-                    </tbody>
-                </table>
+                <div className='hidden md:block'>
+                    <table className='tabla'>
+                        <thead className='bg-gray-200'>
+                            <tr>
+                                <th className='pr-20'>Vehicle Name</th>
+                                <th className='pr-20'>Vehicle Brand</th>
+                                <th className='pr-20'>Vehicle Model</th>
+                                <th className='pr-20'>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {vehiculosFiltrados.map((vehiculo)=>{
+                                return <FilaVehiculo key={nanoid()} vehiculo={vehiculo}/>;
+                                
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+                <div className='flex flex-col w-full m-2 md:hidden'>
+                    {vehiculosFiltrados.map((el)=>{
+                        return (
+                            <div className='bg-gray-400 m-2 shadow-x flex flex-col p-2 rounded-xl'>
+                                <span>{el.nombre}</span>
+                                <span>{el.marca}</span>
+                                <span>{el.modelo}</span>
+                            </div>
+                        );
+                    })}
+                </div>
         </div>
     );
 
