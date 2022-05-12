@@ -49,7 +49,7 @@ const Vehiculos = () => {
         const obtenerVehiculos = async () => {
             const options = {
                 method: 'GET',
-                url: 'http://localhost:3000/vehicle/update...herokuapp' 
+                url: 'http://localhost:5000/vehiculos/' 
             };
         
             await axios
@@ -144,7 +144,7 @@ const FilaVehiculo = ( { vehiculo, setEjecutarConsulta } ) => {
         //enviar info al backend
         const options = {
             method: 'PATCH',
-            url: 'http://localhost:3000/vehicle/update...herokuapp'
+            url: 'http://localhost:5000/vehiculos/',
             headers: {'content-type': 'application/json'},
             data: { ...infoNuevoVehiculo, id: vehiculo._id },
         };
@@ -165,7 +165,7 @@ const FilaVehiculo = ( { vehiculo, setEjecutarConsulta } ) => {
     const EliminarVehiculo = async () =>{
         const options = {
             method: 'DELETE',
-            url: 'http://localhost:3000/vehicle/update...herokuapp'
+            url: 'http://localhost:5000/vehiculos/',
             headers: {'content-type': 'application/json'},
             data: { id: vehiculo._id },
         };
@@ -234,11 +234,11 @@ const FormularioVehiculos = ({ setMostrarTabla, listaVehiculos, setVehiculos }) 
 
         const options = {
             method: 'POST',
-            url: 'http://localhost:3000/vehicle/update...herokuapp'
+            url: 'http://localhost:5000/vehiculos/nuevo',
             headers: {'content-type': 'application/json'},
             data: { name: nuevoVehiculo.name, brand: nuevoVehiculo.brand, model: nuevoVehiculo.model },
         };
-    
+        
         await axios
             .request(option)
             .then(function (response) {
